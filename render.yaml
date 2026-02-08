@@ -7,8 +7,9 @@ services:
   - type: web
     name: nestedinfo-backend
     runtime: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn config.wsgi:application"
+    rootDir: backend
+    buildCommand: "chmod +x build.sh && ./build.sh"
+    startCommand: "gunicorn config.wsgi:application --bind 0.0.0.0:$PORT"
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -18,5 +19,5 @@ services:
         generateValue: true
       - key: DEBUG
         value: False
-      - key: PYTHON_VERSION
-        value: 3.14.2
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
